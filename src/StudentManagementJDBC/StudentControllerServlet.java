@@ -66,6 +66,10 @@ private StudentDBUtil studentDBUtil;
 			case "UPDATE" : 
 				updateStudent(request,response);
 				break;
+				
+			case "DELETE" : 
+				deleteStudent(request,response);
+				break;
 		default : 
 			listStudents(request,response);
 		}
@@ -128,6 +132,13 @@ private void addStudent(HttpServletRequest request, HttpServletResponse response
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/update-student.jsp");
 		dispatcher.forward(request, response);
 		
+	}
+	
+	private void deleteStudent(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		int id = Integer.parseInt(request.getParameter("studentId"));
+		Student theStudent = new Student(id, null, null, null);
+		studentDBUtil.deleteStudent(theStudent);
+		listStudents(request,response);
 	}
 
 }
