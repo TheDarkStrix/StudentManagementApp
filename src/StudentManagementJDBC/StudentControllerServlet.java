@@ -58,7 +58,14 @@ private StudentDBUtil studentDBUtil;
 			case "ADD" : 
 				addStudent(request,response);
 				break;
-			
+				
+			case "LOAD" : 
+				loadStudent(request,response);
+				break;
+				
+			case "UPDATE" : 
+				updateStudent(request,response);
+				break;
 		default : 
 			listStudents(request,response);
 		}
@@ -91,6 +98,36 @@ private void addStudent(HttpServletRequest request, HttpServletResponse response
 //		This will Dispatch the data to a JSP page
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/list-students.jsp");
 		dispatcher.forward(request, response);
+	}
+	
+	private void updateStudent(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		int id = Integer.parseInt(request.getParameter("studentId"));
+		String firstname = request.getParameter("firstName");
+		String lastname = request.getParameter("lastName");
+		String email = request.getParameter("email");
+		
+		Student theStudent = new Student(id,firstname,lastname,email);
+		
+		studentDBUtil.updateStudent(theStudent);
+		
+		listStudents(request,response);
+		
+	}
+
+
+
+
+	private void loadStudent(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+		String theStudentId = request.getParameter("studentId");
+		
+		Student theStudent = studentDBUtil.getStudent(theStudentId);
+		
+		request.setAttribute("THE_STUDENT", theStudent);
+		
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/update-student.jsp");
+		dispatcher.forward(request, response);
+		
 	}
 
 }
