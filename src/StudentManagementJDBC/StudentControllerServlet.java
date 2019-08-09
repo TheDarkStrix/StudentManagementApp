@@ -41,15 +41,36 @@ private StudentDBUtil studentDBUtil;
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
-	}
+		try {
+//			Get the the Command value from JSP page
+			String theCommand = request.getParameter("Command");
+			
+			if(theCommand == null) {
+				theCommand = "LIST";
+			}
+//			Make the decision according the command Value
+			switch(theCommand) {
+//			List -> Lists the Details 
+			case "LIST" : 
+				listStudents(request,response);
+				break;
+			
+		default : 
+			listStudents(request,response);
+		}
+			}
+			catch (Exception e) {
+				throw new ServletException(e);
+			}
+		}
 	
 	private void listStudents(HttpServletRequest request, HttpServletResponse response) throws Exception{
+//		Get the Students from the DB CLASS
 		List<Student> students = studentDBUtil.getStudents();
-		
+//		Set the received DATA to student Objects with the name STUDENT_LIST
 		request.setAttribute("STUDENT_LIST", students);
-		
+
+//		This will Dispatch the data to a JSP page
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/list-students.jsp");
 		dispatcher.forward(request, response);
 	}
