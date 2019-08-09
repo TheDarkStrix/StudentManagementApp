@@ -54,6 +54,10 @@ private StudentDBUtil studentDBUtil;
 			case "LIST" : 
 				listStudents(request,response);
 				break;
+//			List -> Create Entry				
+			case "ADD" : 
+				addStudent(request,response);
+				break;
 			
 		default : 
 			listStudents(request,response);
@@ -63,6 +67,20 @@ private StudentDBUtil studentDBUtil;
 				throw new ServletException(e);
 			}
 		}
+	
+private void addStudent(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+		String firstname = request.getParameter("firstName");
+		String lastname = request.getParameter("lastName");
+		String email = request.getParameter("email");
+		
+		Student theStudent = new Student(firstname,lastname,email);
+		
+		studentDBUtil.addStudent(theStudent);
+		
+		listStudents(request,response);
+		
+	}
 	
 	private void listStudents(HttpServletRequest request, HttpServletResponse response) throws Exception{
 //		Get the Students from the DB CLASS

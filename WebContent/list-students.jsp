@@ -8,6 +8,7 @@
 <title>Insert title here</title>
 </head>
 <body>
+<input type="button" Value="Add Student" onclick="window.location.href='add-student.jsp';">
 <table>
 <tr>
 <th>First Name</th>
